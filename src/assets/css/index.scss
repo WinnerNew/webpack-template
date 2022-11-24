@@ -1,0 +1,14 @@
+$blue: skyblue;
+body{
+    background: $blue;
+}
+.img_in_sass1{
+  width: 100px;
+  height: 100px;
+  background-image: url('../img/big.jpg');
+}
+.img_in_sass2{
+  width: 100px;
+  height: 100px;
+  background-image: url('../img/logo.png');
+}
