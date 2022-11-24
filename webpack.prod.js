@@ -33,7 +33,7 @@ module.exports = (env, argv) => {
   if (process.env.NODE_ENV == "analyzer") {
     prodConfig.plugins.push(
       new BundleAnalyzerPlugin({
-        analyzerMode: "server", // 不启动展示打包报告的http服务器
+        analyzerMode: "server", // 启动展示打包报告的http服务器
         generateStatsFile: true, // 是否生成stats.json文件
       })
     );
