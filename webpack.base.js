@@ -1,32 +1,27 @@
 const path = require("path");
-const chalk = require("chalk");
-const glob = require("glob"); // 文件匹配模式
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // html模版
-const { VueLoaderPlugin } = require("vue-loader"); // vue加载器
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); //样式抽离
-const { PurgeCSSPlugin } = require("purgecss-webpack-plugin"); //清楚未使用的css
 const resolve = (relativePath) => path.resolve(__dirname, relativePath); // 根据相对路径获取绝对路径
-const isDev = process.env.NODE_ENV === "development"; // 是否是开发模式
-const PATHS = {
-  src: path.join(__dirname, "src"),
-};
+// const { VueLoaderPlugin } = require("vue-loader"); // vue加载器
 
 module.exports = {
-  entry: resolve("/src/main.js"),
+  entry: resolve("./src/main.js"),
   output: {
     path: resolve("./dist"),
     // hash 代表每次 webpack 在编译的过程中会生成唯一的 hash 值，在项目中任何一个文件改动后就会被重新创建，然后 webpack 计算新的 hash 值。
     // chunkhash 是根据模块计算出来的 hash 值，所以某个文件的改动只会影响它本身的 hash 值，不会影响其他文件。
     filename: "[name].[chunkhash:8].bundle.js",
-    clean: true, //每次构建清除dist包 最新版webpack内置替代 clean-webpack-plugin
+    clean: true, //每次构建清除dist包 最新版webpack内置替代 clean-webpack-plugin 插件
+    // chunkFilename: "js/chunk.[id].[name].js", //异步打包文件名 import(/* webpackChunkName: "name" */ "module")
   },
   module: {
     rules: [
-      {
-        test: /\.vue$/,
-        loader: "vue-loader",
-        include: [resolve("./src")],
-      },
+      // vue 文件
+      // {
+      //   test: /\.vue$/,
+      //   loader: "vue-loader",
+      //   include: [resolve("./src")],
+      // },
       //js jsx文件
       {
         test: /(\.jsx|\.js)$/,
@@ -123,12 +118,12 @@ module.exports = {
   },
   plugins: [
     // vue加载
-    new VueLoaderPlugin(),
+    // new VueLoaderPlugin(),
     // CSS抽离
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash:8].css", // 抽离css的输出目录和名称
     }),
-    //清除未使用的css
+    // TODO 清除未使用的css  webpack5版本冲突
     // new PurgeCSSPlugin({
     //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     // }),
@@ -139,13 +134,22 @@ module.exports = {
       template: resolve("./public/index.html"),
       filename: "index.html",
       rootNode: `<div id='app'></div>`,
+      cdn: {
+        css: [
+          // "https://cdn.bootcss.com/element-ui/2.8.2/theme-chalk/index.css"
+        ],
+        js: [
+          // "https://cdn.bootcss.com/vue/2.6.14/vue.min.js",
+          // "https://cdn.bootcdn.net/ajax/libs/vue-router/3.5.3/vue-router.min.js",
+          // "https://cdn.bootcss.com/element-ui/2.8.2/index.js",
+        ],
+      },
     }),
- 
   ],
   //来自外部引入的模块 从输出的 bundle 中排除依赖
   externals: {
-    vue: "Vue",
-    "vue-router": "VueRouter",
+    // vue: "Vue",
+    // "vue-router": "VueRouter",
   },
   //webpack解析模块时应该搜索的目录
   //webpack 优先 src 目录下查找需要解析的文件，会大大节省查找时间

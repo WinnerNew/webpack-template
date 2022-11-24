@@ -1,20 +1,18 @@
 const { merge } = require("webpack-merge");
-const config = require("./webpack.config.js");
+const config = require("./webpack.base.js");
 const path = require("path");
 const WebpackBar = require("webpackbar"); //编译进度条
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin"); //打包输出信息优化
 const port = 8080 | "auto";
-
-// const address = require("address");
 const devConfig = merge(config, {
   mode: "development",
   stats: "errors-only", //编译时webpack只输出报错信息 friendly-errors-webpack-plugin
   devtool: "source-map", //开发模式开启 sourse-map
   // stats: {
   //   env: false, // 是否展示 --env 信息
-  // colors: {
-  //   green: "\u001b[38;5;6m",
-  // },
+  //   colors: {
+  //     green: "\u001b[38;5;6m",
+  //   },
   //   chunks: false, // 是否添加关于 chunk 的信息
   //   assets: false, // 是否展示资源信息
   //   modules: false, // 是否添加关于构建模块的信息
@@ -22,19 +20,19 @@ const devConfig = merge(config, {
   // },
 
   devServer: {
-    onListening: function (devServer) {
-      if (!devServer) {
-        throw new Error("webpack-dev-server is not defined");
-      }
-      const port = devServer.server.address().port;
-      console.log("Listening on port:", port);
-    },
-    // https: true, //开启https访问
     hot: true, //热更新
     historyApiFallback: true, //开启history 模式 当使用 HTML5历史 API 时，index.html 页面可能必须代替任何404响应。通过将其设置为 true 来启用 devServer.history 的 ApiFallback
-    // open: true, //编译完自动打开浏览器
     compress: true, //开启gzip压缩  //响应头 ->Content-Encoding: gzip
     port, //自动使用一个可用端口
+    // open: true, //编译完自动打开浏览器
+    // https: true, //开启https访问
+    // onListening: function (devServer) {
+    //   if (!devServer) {
+    //     throw new Error("webpack-dev-server is not defined");
+    //   }
+    //   const port = devServer.server.address().port;
+    //   console.log("Listening on port:", port);
+    // },
     //开发环境中设置静态资源目录默认public
     //开启静态资源 false不使用静态资源
     static: {
@@ -45,13 +43,13 @@ const devConfig = merge(config, {
       publicPath: "./public",
     },
     client: {
-      // progress: true, //显示编译进度
-      // logging: "info", //在浏览器中设置日志级别
       //全屏显示
       overlay: {
         errors: true, //全屏显示报错信息
         warnings: false, //忽略警告信息
       },
+      // progress: true, //显示编译进度
+      // logging: "info", //在浏览器中设置日志级别
       // webSocketTransport: "ws", //为客户端单独选择当前的 devServer 传输模式
     },
     // webSocketServer: "ws",
@@ -85,7 +83,6 @@ const devConfig = merge(config, {
   plugins: [
     // function () {
     //   this.hooks.done.tap("done", (stats) => {
-    //     console.log("??", stats);
     //     if (
     //       stats.compilation.errors &&
     //       stats.compilation.errors.length &&
@@ -114,7 +111,8 @@ const devConfig = merge(config, {
     }),
   ],
 });
-module.exports = (mode) => {
-  console.log("process.env.NODE_ENV=", mode, devConfig, process.env.NODE_ENV); // 打印环境变量
+module.exports = (env, argv) => {
+  console.log("env, argv", env, argv); // 打印环境变量 { WEBPACK_SERVE: true } { config: [ 'webpack.dev.js' ], env: { WEBPACK_SERVE: true } }
+  console.log("process.env.NODE_ENV==>", process.env.NODE_ENV);
   return devConfig;
 };
