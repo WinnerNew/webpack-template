@@ -123,7 +123,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "static/css/[name].[contenthash:8].css", // 抽离css的输出目录和名称
     }),
-    // TODO 清除未使用的css  webpack5版本冲突
+    // TODO 清除未使用的css  (注意vue组件中的style标签内样式会被清空)
     // new PurgeCSSPlugin({
     //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     // }),
