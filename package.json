@@ -9,7 +9,7 @@
     "analyzer": "cross-env NODE_ENV=analyzer webpack --progress --config webpack.prod.js",
     "test": "cross-env NODE_ENV=test webpack --progress --config webpack.prod.js"
   },
-  "author": "",
+  "author": "Alvin Liu",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.20.2",
@@ -48,6 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "dependencies": {}
+  }
 }

@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // html模版
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); //样式抽离
+const ESLintWebpackPlugin = require("eslint-webpack-plugin");
+
 const resolve = (relativePath) => path.resolve(__dirname, relativePath); // 根据相对路径获取绝对路径
 // const { VueLoaderPlugin } = require("vue-loader"); // vue加载器
 
@@ -16,7 +18,7 @@ module.exports = {
   },
   module: {
     rules: [
-      // vue 文件
+      // vue2 文件loader
       // {
       //   test: /\.vue$/,
       //   loader: "vue-loader",
@@ -129,7 +131,7 @@ module.exports = {
     // }),
     // html模版生成
     new HtmlWebpackPlugin({
-      title: "标题",
+      title: "Liuwenbin",
       favicon: resolve("./public/favicon.ico"), // 使用 http://localhost/ 不经网卡传输 访问会看不到ico 需要使用本机ip http://127.0.0.1/
       template: resolve("./public/index.html"),
       filename: "index.html",
@@ -164,6 +166,7 @@ module.exports = {
       //配置别名
       "@": resolve("./src"),
       components: resolve("./src/components"),
+      api: resolve("./src/api"),
       // import react的时候直接从指定的路径去找
       // react: path.resolve(__dirname, './node_modules/react/dist/react.min.js',
     },

@@ -2,6 +2,7 @@ const { merge } = require("webpack-merge");
 const baseConfig = require("./webpack.base.js");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// @ts-ignore
 const prodConfig = merge(baseConfig, {
   mode: "production",
   plugins: [],
@@ -27,11 +28,13 @@ const prodConfig = merge(baseConfig, {
     },
   },
 });
+// @ts-ignore
 module.exports = (env, argv) => {
-  console.log("env, argv", env, argv); // 打印环境变量
-  console.log("process.env.NODE_ENV==>", process.env.NODE_ENV);
+  // console.log("env, argv", env, argv); // 打印环境变量
+  // console.log("process.env.NODE_ENV==>", process.env.NODE_ENV);
   if (process.env.NODE_ENV == "analyzer") {
     prodConfig.plugins.push(
+      // @ts-ignore
       new BundleAnalyzerPlugin({
         analyzerMode: "server", // 启动展示打包报告的http服务器
         generateStatsFile: true, // 是否生成stats.json文件

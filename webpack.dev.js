@@ -3,7 +3,8 @@ const config = require("./webpack.base.js");
 const path = require("path");
 const WebpackBar = require("webpackbar"); //编译进度条
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin"); //打包输出信息优化
-const port = 8080 | "auto";
+const port = 8080 || "auto";
+// @ts-ignore
 const devConfig = merge(config, {
   mode: "development",
   stats: "errors-only", //编译时webpack只输出报错信息 friendly-errors-webpack-plugin
@@ -94,6 +95,7 @@ const devConfig = merge(config, {
     //   });
     // },
     // 进度条
+    // @ts-ignore
     new WebpackBar({
       color: "#409eff", // 默认green，进度条颜色支持HEX
       basic: true, // 默认true，启用一个简单的日志报告器
@@ -102,9 +104,15 @@ const devConfig = merge(config, {
     //优化打包信息
     new FriendlyErrorsWebpackPlugin({
       // 成功的时候输出
+      // @ts-ignore
       compilationSuccessInfo: {
-        messages: ["App running at:" + ` Local: http://localhost:${port}`],
-        notes: [`Network: http://${require("ip").address()}:${port}`],
+        // messages: ["App running at:", `- Local: http://localhost:${port}`],
+        // notes: [`-Network: http://${require("ip").address()}:${port}`],
+        messages: [
+          `App runing at: `,
+          `- Local: http://localhost:${port}`, //配置这里
+          `- Network: http://${require("ip").address()}:${port}`, //配置这里
+        ],
       },
       // 是否每次都清空控制台
       clearConsole: true,
